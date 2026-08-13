@@ -1,0 +1,18 @@
+name: Framework checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  shell-and-template-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash -n scripts/*.sh
+      - run: test -f README.md && test -f framework.env.example
+      - run: rg -n 'com\.socialmedia\.alter|AIza|BEGIN PRIVATE KEY' . --glob '!README.md' && exit 1 || true

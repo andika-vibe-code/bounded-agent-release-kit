@@ -1,0 +1,22 @@
+# Local configuration and credentials
+framework.env
+secrets/
+*.keystore
+*.jks
+
+# Release artifacts and operational state
+releases/*/build/
+releases/*/device_qa/
+releases/*/play_upload/
+releases/*/.approval-lock
+releases/*/.orchestrator-state.json
+releases/*/.orchestrator-events.jsonl
+
+# Generated codebase-memory artifacts are optional and must be deliberately added.
+.codebase-memory/*.db.zst
+.codebase-memory/artifact.json
+
+# Flutter
+.dart_tool/
+build/
+.flutter-plugins-dependencies

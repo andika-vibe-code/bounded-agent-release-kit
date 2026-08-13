@@ -1,0 +1,28 @@
+version: 1
+
+orchestrator:
+  host: codex
+  primary:
+    logical_model: primary-planner
+  fallbacks:
+    - logical_model: capacity-fallback-planner
+  failover:
+    triggers: [quota_exhausted, rate_limited, context_rejected]
+    never_switch_for: [tool_error, test_failure, ambiguous_spec, scope_disagreement]
+    resume_from: [orchestrator_brief.md, implementation_plan.md, .orchestrator-state.json]
+
+shared_code_memory:
+  provider: codebase-memory-mcp
+  access_mode: read_first
+  allowed_read_tools: [get_architecture, search_graph, trace_path, get_code_snippet, query_graph]
+  prohibited: [conversation_summaries_in_graph, unverified_agent_inferences_in_graph]
+  refresh:
+    tool: index_repository
+    mode: fast
+    persistence: true
+    required_when: [graph_missing_or_stale, before_release_plan, after_merged_release]
+    forbidden_during: [active_executor_phase, unresolved_bug_loop]
+
+executor:
+  mode: bounded_handoff
+  forbidden: [scope_changes_without_ack, edits_outside_allowlist, success_without_evidence]
