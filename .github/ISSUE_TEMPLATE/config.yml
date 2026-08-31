@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/andika-vibe-code/bounded-agent-release-kit/security/advisories/new
+    about: Report credential exposure or a release-gate bypass privately.

@@ -1,6 +1,14 @@
 # Installation and GitHub setup
 
-Install the kit at an application's repository root, then copy `framework.env.example` to `framework.env`. Set `ANDROID_PACKAGE_NAME` to the target application ID. Keep `framework.env`, signing files, and service-account JSON outside Git.
+The kit is a provider-neutral framework template. Install it at an application's repository root, or copy the framework files into the application repository. It currently targets Flutter and Android release workflows.
+
+## Local installation
+
+```bash
+cp framework.env.example framework.env
+```
+
+Set `ANDROID_PACKAGE_NAME` to the real application ID. Keep `framework.env`, signing files, and service-account JSON outside Git. The example deliberately uses `com.example.app` so an accidental upload fails closed.
 
 ## Codebase memory
 
@@ -16,7 +24,7 @@ The upload script supports a service-account OAuth flow and refuses the `product
 
 ## Publishing this framework
 
-Create an empty public GitHub repository, then run:
+The canonical public repository is [andika-vibe-code/bounded-agent-release-kit](https://github.com/andika-vibe-code/bounded-agent-release-kit). To publish a fork or a new copy, create an empty public GitHub repository, then run:
 
 ```bash
 git init
@@ -26,3 +34,12 @@ git commit -m "feat: initial framework"
 git remote add origin https://github.com/YOUR_ACCOUNT/bounded-agent-release-kit.git
 git push -u origin main
 ```
+
+Before pushing, run the same checks used by CI:
+
+```bash
+bash -n scripts/*.sh
+test -f README.md && test -f framework.env.example
+```
+
+Never commit `framework.env`, credentials, generated release state, or application-specific code.
